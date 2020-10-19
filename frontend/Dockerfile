@@ -12,7 +12,13 @@ RUN npm install
 ADD . .
 
 # Building app
+
+# This for production
+# RUN npm run build 
 EXPOSE 3000
 
 # Running app
 CMD [ "npm", "run", "dev" ]
+
+# This for production
+# CMD [ "npm", "start" ]
