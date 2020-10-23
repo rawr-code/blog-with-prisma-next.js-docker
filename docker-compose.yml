@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  postgresql:
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    image: postgres:12.4
+    restart: always
+    environment:
+      POSTGRES_DB: prisma
+      POSTGRES_PASSWORD: prismapass
+    volumes:
+      - postgresql:/var/lib/postgresql
+  prisma:
+    links:
+      - postgresql
+    depends_on:
+      - postgresql
+    container_name: prisma
+    image: prisma_studio
+    ports:
+      - "5555:5555"
+    build:
+      context: backend/prisma
+      dockerfile: Dockerfile
+    volumes:
+      - /app/prisma
+  backend:
+    links:
+      - postgresql
+    depends_on:
+      - postgresql
+    container_name: backend
+    image: prisma.io
+    ports:
+      - "4000:4000"
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/usr/src/app/backend
+      - /usr/src/app/backend/node_modules
+      - /usr/src/app/backend/prisma
+  frontend:
+    container_name: frontend
+    image: nextjs
+    ports:
+      - "3000:3000"
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/usr/src/app/frontend
+      - /usr/src/app/frontend/node_modules
+      - /usr/src/app/frontend/.next
+
+volumes: #define our postgresql volume used above
+  postgresql:
