@@ -5,7 +5,7 @@
   "keywords": [],
   "author": "",
   "scripts": {
-    "start": "node dist/server",
+    "start": "npm -s run build && node dist/server",
     "clean": "rimraf dist",
     "build": "npm -s run clean && npm -s run generate && tsc",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
