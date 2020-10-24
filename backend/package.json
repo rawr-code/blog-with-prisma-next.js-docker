@@ -8,10 +8,12 @@
     "start": "npm -s run build && node dist/server",
     "clean": "rimraf dist",
     "build": "npm -s run clean && npm -s run generate && tsc",
+    "inspect": "prisma introspect",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
     "generate:prisma": "prisma generate",
     "generate:nexus": "ts-node --transpile-only src/schema",
-    "dev": "ts-node-dev --no-notify --respawn --transpileOnly src/server"
+    "dev": "ts-node-dev --no-notify --respawn --transpileOnly src/server",
+    "postinstall": "npm -s run generate"
   },
   "dependencies": {
     "@nexus/schema": "^0.16.0",
