@@ -8,7 +8,8 @@
     "start": "npm -s run build && node dist/server",
     "clean": "rimraf dist",
     "build": "npm -s run clean && npm -s run generate && tsc",
-    "inspect": "prisma introspect",
+    "migrations:generate": "dotenv -e migrate.env -- prisma migrate save --experimental --create-db",
+    "migrations:push": "dotenv -e migrate.env -- prisma migrate up --experimental --create-db",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
     "generate:prisma": "prisma generate",
     "generate:nexus": "ts-node --transpile-only src/schema",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "^14.11.10",
+    "dotenv-cli": "^4.0.0",
     "rimraf": "^3.0.2",
     "ts-node": "^9.0.0",
     "ts-node-dev": "1.0.0-pre.50",
