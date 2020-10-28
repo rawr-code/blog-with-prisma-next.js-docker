@@ -7,21 +7,9 @@ const User = objectType({
     t.model.id();
     t.model.email();
     t.model.name();
-    t.model.role();
     t.model.posts({
       pagination: false,
     });
-    t.model.profile();
-  },
-});
-
-const Profile = objectType({
-  name: "Profile",
-  definition(t) {
-    t.model.id();
-    t.model.bio();
-    t.model.user();
-    t.model.userId();
   },
 });
 
@@ -34,16 +22,6 @@ const Post = objectType({
     t.model.published();
     t.model.author();
     t.model.authorId();
-    t.model.categories();
-  },
-});
-
-const Category = objectType({
-  name: "Category",
-  definition(t) {
-    t.model.id();
-    t.model.name();
-    t.model.posts();
   },
 });
 
@@ -84,8 +62,6 @@ const Mutation = objectType({
   name: "Mutation",
   definition(t) {
     t.crud.createOnePost({ alias: "newPost" });
-    t.crud.createOneCategory({ alias: "newCategory" });
-    t.crud.createOneProfile({ alias: "newProfile" });
     t.crud.createOneUser({ alias: "newUser" });
     // t.crud.createOneUser({ alias: "signupUser" });
     // t.crud.deleteOnePost();
@@ -128,7 +104,7 @@ const Mutation = objectType({
 });
 
 export const schema = makeSchema({
-  types: [Query, Mutation, Post, User, Profile, Category],
+  types: [Query, Mutation, Post, User],
   plugins: [nexusPrisma({ experimentalCRUD: true })],
   outputs: {
     schema: __dirname + "/../schema.graphql",

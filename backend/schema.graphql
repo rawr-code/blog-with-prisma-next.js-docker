@@ -2,19 +2,26 @@
 ### Do not make changes to this file directly
 
 
+scalar DateTime
+
 type Mutation {
-  createDraft(authorEmail: String!, content: String, title: String!): Post
-  deleteOnePost(where: PostWhereUniqueInput!): Post
-  publish(id: Int): Post
-  signupUser(data: UserCreateInput!): User!
+  newPost(data: PostCreateInput!): Post!
+  newUser(data: UserCreateInput!): User!
 }
 
 type Post {
-  author: User
-  authorId: Int
-  content: String
+  author: User!
+  authorId: Int!
+  createdAt: DateTime!
   id: Int!
   published: Boolean!
+  title: String!
+}
+
+input PostCreateInput {
+  author: UserCreateOneWithoutPostsInput!
+  createdAt: DateTime
+  published: Boolean
   title: String!
 }
 
@@ -24,7 +31,7 @@ input PostCreateManyWithoutAuthorInput {
 }
 
 input PostCreateWithoutAuthorInput {
-  content: String
+  createdAt: DateTime
   published: Boolean
   title: String!
 }
@@ -35,7 +42,6 @@ input PostWhereUniqueInput {
 
 type Query {
   feed: [Post]
-  filterPosts(searchString: String): [Post]
   post(where: PostWhereUniqueInput!): Post
 }
 
@@ -50,4 +56,19 @@ input UserCreateInput {
   email: String!
   name: String
   posts: PostCreateManyWithoutAuthorInput
+}
+
+input UserCreateOneWithoutPostsInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateWithoutPostsInput
+}
+
+input UserCreateWithoutPostsInput {
+  email: String!
+  name: String
+}
+
+input UserWhereUniqueInput {
+  email: String
+  id: Int
 }
