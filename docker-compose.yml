@@ -18,8 +18,8 @@ services:
     image: dpage/pgadmin4:4.27
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@linuxhint.com
-      PGADMIN_DEFAULT_PASSWORD: secret
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_USER}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
       PGADMIN_LISTEN_PORT: 80
     ports:
       - "8080:80"
@@ -57,6 +57,7 @@ services:
       dockerfile: Dockerfile
     environment:
       POSTGRESQL_URL: ${POSTGRESQL_URL}
+      DATABASE_URL: ${POSTGRESQL_URL}
       FRONTEND_URL: ${FRONTEND_URL}
     volumes:
       - ./backend:/usr/src/app/backend
